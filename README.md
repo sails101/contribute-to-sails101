@@ -1,25 +1,131 @@
-contribute-to-sails101
+Integrating Passport JS with Sails v0.10+ using Policy
 ======================
 
-### How do I add a new Sails 101 tutorial app?
+### Overview
+This example shows how to integrate passport in the recommended way. We will be using only local strategy but in the same way you can integrate any of the supported strategies.
 
-1. Fork this repository.
-2. Create a new sails101 tutorial. Try to keep things as conventional and simple as possible- the goal is make these tutorials concise and focused on one particular issue/question at a time (e.g. "How do I use the Jade view engine with Sails?")
-3. Please keep the code as simple as possible.  At minimum, be sure and provide a link to the relevant code file(s) in the README, but ideally you'd include some background information and a step-by-step guide.  Eventually, these README files will be displayed on http://www.sails.js.org.
-4. When finished, send a pull request to this repository.  One of the moderators will check it out, make sure it works, provide feedback, and potentially suggest some tweaks.
-5. When everything is rock-solid, we'll add your tutorial as a new repository in this Github organization, and give you admin access so you can make edits, add other committers, close issues, merge pull requests, etc.
+### Install Passport JS
+Install the required packages.
 
-Thanks for contributing!
-~Mike
+- npm install passport
+- npm install passport-local
 
+### config/policies.js
+Add the following policy on all the controllers to initialize passport. It's like adding the two middlewares in express. These will be called only on controllers and not on static content. 
 
-### Roadmap
+```
+'*': [
+      // Initialize Passport
+      passport.initialize(),
 
-The Sails101 community project is still in an experimental stage.  Once we've tested it out a bit, the next step is to automatically parse the repositories in this Github organization, compile them to HTML, and sync them to the new "Guides" section of http://sailsjs.org.
+      // Use Passport's built-in sessions
+      passport.session()
+  ],
+```
 
-> + Please tweet [@sailsjs](https://twitter.com/sailsjs) with any ideas/comments/questions about this workflow.
+You will also need to add the actual policy which checks the whether session is authenticated or not?
+Supossing you have a controller called MainController which needs to be accessed by authenticated people only.
 
+```
+MainController: {
+    '*': 'sessionAuth'
+  },
+```
 
-### License
+We will see the code behind 'sessionAuth' in a while. 
+  
+### Authentication Service
+We will add a simple authentication service, which describes the local strategy and also how to serialize and deserialize user for session. Add a file called Authentication.js under api/services folder.
 
-MIT
+```
+var LocalStrategy = require('passport-local').Strategy;
+
+exports.Local = new LocalStrategy(
+  function(username, password, done) {
+
+    if (username === 'whichsquid') {
+      if(password === 'giantone')
+        return done(null, {id: username, role: 'man-eater'});
+      else
+        return done(null, false, { message: 'Incorrect password.' });
+    }
+    else
+      return done(null, false, { message: 'Incorrect username.' });
+  }
+);
+
+exports.serialize = function(user, done) {
+  done(null, user.id);
+};
+
+exports.deserialize = function(id, done) {
+  done(null, id);
+};
+```
+
+### config/bootstrap.js
+Perfect place for bootstrapping passport. Add the following lines before the callback cb();
+
+```
+passport.use(Authentication.Local);
+passport.serializeUser(Authentication.serialize);
+passport.deserializeUser(Authentication.deserialize);
+```
+
+### api/policies/sessionAuth.js
+Check if the user exists in session. If user is authenticated and logged in; passport adds a session variable passport.user which contains the deserialized user. On logout or session expiry, this variable is cleared.
+
+```
+module.exports = function(req, res, next) {
+
+  // User is allowed, proceed to the next policy
+  if (req.session.passport && req.session.passport.user) {
+    return next();
+  }
+
+  // redirect to login page if user is not authenticated.
+  return res.redirect('/login');
+};
+```
+
+### Login Controller
+This controller show you login page, let's you login and logout.
+
+```
+var passport = require('passport');
+
+module.exports = {
+
+  getLogin: function (req, res) {
+    return res.ok({ layout: false }, 'login');
+  },
+
+  postLogin: function (req, res) {
+		passport.authenticate('local',
+							{ successRedirect: '/',
+       						  failureRedirect: '/login',
+       						  session: true })(req,res);
+  },
+
+  logout: function (req, res) {
+		req.logout();
+    return res.redirect('/login');
+  }
+};
+```
+
+### Login Form
+Sample login form. Note that username and password fields needs to be of the same name. If you want to use different name then you will need to configure that in local strategy also. For more details check out [Passport](http://passportjs.org).
+
+```
+<form action='/login' method="POST">
+  <input type="text" name="username">
+  <input type="password" name="password">
+  <input type="submit" value="LOG IN">
+</form>
+```
+
+### Version tested on
+- passport - 0.2.0
+- passport-local - 1.0.0
+- sails - 0.10.0-rc8
