@@ -44,7 +44,5 @@ For frontend frameworks like Ember.js that heavily and unforgivingly opinionated
 # Author #
 ### Brian Jemilo II ###
 
-Twitter   | [@jemiloii](http://twitter.com/jemiloii)  
-Google    | [+jemiloii](http://plus.google.com/+JemiloII)  
-IRC       | jemiloii  
-CyberDust | jemiloii  
+Twitter   - [@jemiloii](http://twitter.com/jemiloii)  
+Google    - [+jemiloii](http://plus.google.com/+JemiloII)  
