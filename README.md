@@ -2,7 +2,7 @@
 
 This allows sails to handle requests and responses via the jsonapi.org specs. For example: 
 	   
-```
+```js
 {
  user: [{
  	id: 1,
@@ -28,6 +28,14 @@ Then replace `req.body[req.options.model]` with `resource`
 
 ## Sending Responses ##
 
+In the responses [ok.js](https://github.com/JemiloII/contribute-to-sails101/blob/master/api/responsess/ok.js)
+Format Responses to Jsonapi.org spec standards.
+```js
+var format = {};
+format[req.options.model] = data;
+data = {};
+data = format;
+```
 
 # Use Cases #
  
