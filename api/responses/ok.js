@@ -23,6 +23,12 @@ module.exports = function sendOK (data, options) {
   // Set status code
   res.status(200);
 
+  // Format Responses to Jsonapi.org spec standards.
+  var format = {};
+  format[req.options.model] = data;
+  data = {};
+  data = format;
+  
   // If appropriate, serve data as JSON(P)
   if (req.wantsJSON) {
     return res.jsonx(data);
