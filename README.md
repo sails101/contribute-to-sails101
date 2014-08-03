@@ -1,6 +1,6 @@
-# jsonapi
+# jsonapi #
 
-This accepts request via the jsonapi.org specs. For example: 
+This allows sails to handle requests and responses via the jsonapi.org specs. For example: 
 	   
  ```
  {
@@ -22,5 +22,10 @@ This accepts request via the jsonapi.org specs. For example:
  `resource = req.body[req.options.model] + 's';`
  
  Then replace `req.body[req.options.model]` with `resource`
+ 
+ 
+ # Use Cases #
+ 
+ For frontend frameworks like Ember.js that heavily and unforgivingly opinionated.
 	
 
