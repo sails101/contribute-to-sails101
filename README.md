@@ -37,6 +37,11 @@ data = {};
 data = format;
 ```
 
+# Final Step
+
+Add `'*': 'jsonapi'` to `config/policies` this way it will apply to every controller.
+
+
 # Use Cases #
  
 For frontend frameworks like Ember.js that heavily and unforgivingly opinionated.
