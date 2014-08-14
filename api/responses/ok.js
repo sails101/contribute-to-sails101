@@ -26,7 +26,6 @@ module.exports = function sendOK (data, options) {
   // Format Responses to Jsonapi.org spec standards.
   var format = {};
   format[req.options.model] = data;
-  data = {};
   data = format;
   
   // If appropriate, serve data as JSON(P)
@@ -42,12 +41,12 @@ module.exports = function sendOK (data, options) {
   // Otherwise try to guess an appropriate view, or if that doesn't
   // work, just send JSON.
   if (options.view) {
-    return res.view(options.view, { data: data });
+    return res.view(options.view, data);
   }
 
   // If no second argument provided, try to serve the implied view,
   // but fall back to sending JSON(P) if no view can be inferred.
-  else return res.guessView({ data: data }, function couldNotGuessView () {
+  else return res.guessView(data, function couldNotGuessView () {
     return res.jsonx(data);
   });
 
