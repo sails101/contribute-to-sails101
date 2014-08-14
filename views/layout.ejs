@@ -15,12 +15,12 @@
         using a solution like AMD (RequireJS).  Or, if you like, you can take advantage 
         of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
-        By default, stylesheets from your `assets/linker/styles` folder are included
+        By default, stylesheets from your `assets/styles` folder are included
         here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
         are supported. In production, your styles will be minified and concatenated into
         a single file.
         
-        To customize any part of the built-in behavior, just edit your Gruntfile.
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
         For example, here are a few things you could do:
             
             + Change the order of your CSS files
@@ -29,6 +29,7 @@
     -->
 
     <!--STYLES-->
+    <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
   </head>
 
@@ -46,10 +47,10 @@
         that you load these templates client-side.
 
         By default, your Gruntfile is configured to automatically load and precompile
-        client-side JST templates in your `assets/linker/templates` folder, then
+        client-side JST templates in your `assets/templates` folder, then
         include them here automatically (between TEMPLATES and TEMPLATES END).
         
-        To customize this behavior to fit your needs, just edit your Gruntfile.
+        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
         For example, here are a few things you could do:
 
             + Import templates from other directories
@@ -59,6 +60,7 @@
     -->
 
     <!--TEMPLATES-->
+    
     <!--TEMPLATES END-->
 
 
@@ -71,12 +73,12 @@
       on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
       take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
-      By default, filesin your `assets/linker/js` folder are included here
+      By default, files in your `assets/js` folder are included here
       automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
       CoffeeScript (.coffee) are supported. In production, your scripts will be minified
       and concatenated into a single file.
       
-      To customize any part of the built-in behavior, just edit your Gruntfile.
+      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
       For example, here are a few things you could do:
           
           + Change the order of your scripts
@@ -86,6 +88,7 @@
     -->
 
     <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>
