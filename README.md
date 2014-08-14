@@ -33,13 +33,13 @@ Format Responses to Jsonapi.org spec standards.
 ```js
 var format = {};
 format[req.options.model] = data;
-data = {};
 data = format;
 ```
 
 # Final Step
 
-Add `'*': 'jsonapi'` to `config/policies` this way it will apply to every controller.
+In config [policies.js](https://github.com/JemiloII/contribute-to-sails101/blob/master/config/policies.js)
+Add `'*': 'jsonapi'` this way it will apply to every controller.
 
 
 # Use Cases #
