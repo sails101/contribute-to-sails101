@@ -96,6 +96,8 @@ Here you are applying, `sessionAuth` policy for all the controller actions excep
 
 Now, lift your Sails application and see things in action! 
 
+---
+
 Here are the steps for adding API authentication:
 
 Step 1: We have to create an access token when a user is created. For that, add a new attribute called `accessToken` in the model [api/models/passport.js](https://github.com/multunus/sails-auth-example/blob/master/api/models/Passport.js#L64).
