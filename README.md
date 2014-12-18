@@ -17,7 +17,7 @@ I've added two controller actions: `flash/home` and `flash/remotehome`.
 
 [http://localhost:1337/flash/home](http://localhost:1337/flash/home) cannot be accessed without logging in. You will be redirected to login page ([http://localhost:1337/login](http://localhost:1337/login)). You can register for a new account at [http://localhost:1337/register](http://localhost:1337/register).
 
-[http://localhost:1337/flash/remotehome](http://localhost:1337/flash/remotehome) cannot be accessed without an API token. Hope you have already obtained your API token from `flash/home`. This should be present in any of the following ways:
+[http://localhost:1337/flash/remotehome](http://localhost:1337/flash/remotehome) cannot be accessed without an API token. Hope you have already obtained your API token from `flash/home`. This should be present in the request in any of the following ways:
 
 1. As a query param: Example: [http://localhost:1337/flash/remotehome?access_token=<token>](http://localhost:1337/flash/remotehome?access_token=<token>)
 2. In the body: Example: `access_token: <token>`
@@ -25,7 +25,7 @@ I've added two controller actions: `flash/home` and `flash/remotehome`.
 
 ---
 
-I am going to explain the step by step procedure for integrating Passport to your Sails app usinga passport.js-based authentication generator called [sails-generate-auth](https://www.npmjs.com/package/sails-generate-auth)
+I am going to explain the step by step procedure for integrating Passport to your Sails app using a passport.js-based authentication generator called [sails-generate-auth](https://www.npmjs.com/package/sails-generate-auth)
  
 #### Steps
 
@@ -92,7 +92,7 @@ module.exports.policies = {
 }
 ``` 
 
-Here you are applying, `sessionAuth` policy for all the controller actions except those in `AuthController`. Because auth actions like login, logout, register need to be accessed without logging in.
+Here you are applying `sessionAuth` policy for all the controller actions except those in `AuthController`. Because auth actions like login, logout and register need to be accessed without logging in.
 
 Now, lift your Sails application and see things in action! 
 
@@ -102,7 +102,7 @@ Here are the steps for adding API authentication:
 
 Step 1: We have to create an access token when a user is created. For that, add a new attribute called `accessToken` in the model [api/models/passport.js](https://github.com/multunus/sails-auth-example/blob/master/api/models/Passport.js#L64).
 
-Step 2: Now, we need to generate the accessToken once a user is created. For that add, the following code in [api/services/protocols/local.js](https://github.com/multunus/sails-auth-example/blob/master/api/services/protocols/local.js#L61) and add the accessToken while [creating the passport](https://github.com/multunus/sails-auth-example/blob/master/api/services/protocols/local.js#L66):
+Step 2: Now, we need to generate the accessToken once a user is created. For that, add the following code in [api/services/protocols/local.js](https://github.com/multunus/sails-auth-example/blob/master/api/services/protocols/local.js#L61) and add the accessToken while [creating the passport](https://github.com/multunus/sails-auth-example/blob/master/api/services/protocols/local.js#L66):
 
 ``` js
 var token = new Buffer(user.username + user.createdAt).toString('base64');
