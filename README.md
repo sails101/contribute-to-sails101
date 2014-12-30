@@ -2,6 +2,7 @@ Websocket - Chat Application Example
 ======================
 
 This is simple chat application example about how to using websocket with Sails.js.
+
 ---
 
 ### Getting Started
