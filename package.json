@@ -1,10 +1,14 @@
 {
-  "name": "sails101-contribute-to-sails101",
+  "name": "sails101-websocket-chat-application",
   "version": "0.0.0",
-  "description": "How do I add a new tutorial to Sails 101?",
-  "keywords": [],
+  "description": "Simple chat application example about how to using websocket with Sails.js.",
+  "keywords": [
+    "sails",
+    "websocket",
+    "socket.io"
+  ],
   "dependencies": {
-    "sails": "~0.10.0-rc7",
+    "sails": "~0.10.5",
     "sails-disk": "~0.10.0",
     "rc": "~0.3.3",
     "include-all": "~0.1.3",
@@ -29,8 +33,8 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sails101/contribute-to-sails101.git"
+    "url": "git://github.com/hellowin/sails101-websocket-chat-application"
   },
-  "author": "mikermcneil",
+  "author": "hellowin",
   "license": "MIT"
 }
