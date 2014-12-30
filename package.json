@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "Simple chat application example about how to using websocket with Sails.js.",
   "keywords": [
-    'sails',
-    'websocket',
-    'socket.io'
+    "sails",
+    "websocket",
+    "socket.io"
   ],
   "dependencies": {
     "sails": "~0.10.5",
