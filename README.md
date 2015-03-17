@@ -5,7 +5,7 @@ contribute-to-sails101
 
 1. Fork this repository.
 2. Create a new sails101 tutorial. Try to keep things as conventional and simple as possible- the goal is make these tutorials concise and focused on one particular issue/question at a time (e.g. "How do I use the Jade view engine with Sails?")
-3. Please keep the code as simple as possible.  At minimum, be sure and provide a link to the relevant code file(s) in the README, but ideally you'd include some background information and a step-by-step guide.  Eventually, these README files will be displayed on http://www.sails.js.org.
+3. Please keep the code as simple as possible.  At minimum, be sure and provide a link to the relevant code file(s) in the README, but ideally you'd include some background information and a step-by-step guide.  Eventually, these README files will be displayed on http://www.sailsjs.org.
 4. When finished, send a pull request to this repository.  One of the moderators will check it out, make sure it works, provide feedback, and potentially suggest some tweaks.
 5. When everything is rock-solid, we'll add your tutorial as a new repository in this Github organization, and give you admin access so you can make edits, add other committers, close issues, merge pull requests, etc.
 
@@ -22,4 +22,4 @@ The Sails101 community project is still in an experimental stage.  Once we've te
 
 ### License
 
-MIT
+[The MIT License (MIT)](https://github.com/sails101/contribute-to-sails101/blob/master/LICENSE)
