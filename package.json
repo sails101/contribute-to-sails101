@@ -1,7 +1,7 @@
 {
-  "name": "sails101-contribute-to-sails101",
-  "version": "0.0.0",
-  "description": "How do I add a new tutorial to Sails 101?",
+  "name": "sails101-testing",
+  "version": "1.0.0",
+  "description": "How do I test my Sails.js application?",
   "keywords": [],
   "dependencies": {
     "sails": "~0.10.0-rc7",
@@ -24,13 +24,24 @@
   },
   "scripts": {
     "start": "node app.js",
-    "debug": "node debug app.js"
+    "debug": "node debug app.js",
+    "test": "PORT=9999 NODE_ENV=test mocha -R spec -b --recursive"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sails101/contribute-to-sails101.git"
+    "url": "git://github.com/bredikhin/sails101-testing.git"
   },
-  "author": "mikermcneil",
-  "license": "MIT"
+  "author": "Ruslan Bredikhin",
+  "license": {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/MIT"
+  },
+  "devDependencies": {
+    "barrels": "^1.4.0",
+    "mocha": "^2.0.1",
+    "sails-memory": "^0.10.3",
+    "should": "^4.4.1",
+    "supertest": "^0.15.0"
+  }
 }
