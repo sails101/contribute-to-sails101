@@ -1,25 +1,56 @@
-contribute-to-sails101
-======================
+# Sails.js + Parse SDK
 
-### How do I add a new Sails 101 tutorial app?
+We can use Parse as database for our application. If there's logic
+involved before writing data to the database, it is difficult to put
+everything to the frontend code.
 
-1. Fork this repository.
-2. Create a new sails101 tutorial. Try to keep things as conventional and simple as possible- the goal is make these tutorials concise and focused on one particular issue/question at a time (e.g. "How do I use the Jade view engine with Sails?")
-3. Please keep the code as simple as possible.  At minimum, be sure and provide a link to the relevant code file(s) in the README, but ideally you'd include some background information and a step-by-step guide.  Eventually, these README files will be displayed on http://www.sailsjs.org.
-4. When finished, send a pull request to this repository.  One of the moderators will check it out, make sure it works, provide feedback, and potentially suggest some tweaks.
-5. When everything is rock-solid, we'll add your tutorial as a new repository in this Github organization, and give you admin access so you can make edits, add other committers, close issues, merge pull requests, etc.
+Here's a simple example where Node.js based framework, Sails.js is used
+in the middle of HTML frontend and Parse database.
 
-Thanks for contributing!
-~Mike
+Create a new Sails.js application
 
+``` bash
+sails new employee_database
+```
 
-### Roadmap
+Add `parse` npm module as a dependency for the app in `package.json`:
 
-The Sails101 community project is still in an experimental stage.  Once we've tested it out a bit, the next step is to automatically parse the repositories in this Github organization, compile them to HTML, and sync them to the new "Guides" section of http://sailsjs.org.
+``` js
+"dependencies" : {
 
-> + Please tweet [@sailsjs](https://twitter.com/sailsjs) with any ideas/comments/questions about this workflow.
+  ...
 
+  "parse": "~1.5.0"
+}
+```
 
-### License
+Run:
 
-[The MIT License (MIT)](https://github.com/sails101/contribute-to-sails101/blob/master/LICENSE)
+``` bash
+npm install
+```
+
+Initialize Parse SDK in `config/bootstrap.js`
+
+``` js
+module.exports.bootstrap = function(cb) {
+  Parse = require('parse').Parse;
+  Parse.initialize(APP_ID, JAVASCRIPT_KEY);
+
+  cb();
+}
+```
+
+Obtain your App ID and Javascript ID by creating an app in
+[Parse](https://parse.com)
+
+Export `Parse` in `config/globals.js`
+
+``` js
+module.exports.globals = {
+
+  ...
+
+  Parse: true
+};
+```
