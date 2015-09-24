@@ -44,7 +44,7 @@ Add `'*': 'jsonapi'` this way it will apply to every controller.
 
 # Use Cases #
  
-For frontend frameworks like Ember.js that heavily and unforgivingly opinionated.
+For frontend frameworks like Ember.js that are heavily and unforgivingly opinionated.
 	
 # Author #
 ### Brian Jemilo II ###
