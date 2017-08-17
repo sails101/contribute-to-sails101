@@ -23,13 +23,13 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
-  // Dependencies like sails.io.js, jQuery, or Angular
-  // are brought in here
+  // Dependencies you want injected on the page w/o respect to Require.js
+  // are brought in here (optionally, you can remove this behavior if it is undesired)
   'js/dependencies/**/*.js',
 
-  // All of the rest of your client-side js files
-  // will be injected here in no particular order.
-  'js/**/*.js'
+  //Note we removed the following stock Sails behavior so that we allow Require.js to retrieve it's dependencies in the
+  //proper order and in accordance with its configuration.
+  //'js/**/*.js'
 ];
 
 
