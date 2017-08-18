@@ -1,23 +1,88 @@
-contribute-to-sails101
+sinon-hook
 ======================
 
-### How do I add a new Sails 101 tutorial app?
+### How do I stub or mock services at startup?
+Often we have dependencies on an integration that we'd like to alleviate during development for a variety of reasons,
+e.g. a service may make a call to an external REST or SOAP service that prevents offline development, or is down, rate
+controlled or any other number of things that might make it desirable to simply have the wrapping service return some
+static response during development.
 
-1. Fork this repository.
-2. Create a new sails101 tutorial. Try to keep things as conventional and simple as possible- the goal is make these tutorials concise and focused on one particular issue/question at a time (e.g. "How do I use the Jade view engine with Sails?")
-3. Please keep the code as simple as possible.  At minimum, be sure and provide a link to the relevant code file(s) in the README, but ideally you'd include some background information and a step-by-step guide.  Eventually, these README files will be displayed on http://www.sailsjs.org.
-4. When finished, send a pull request to this repository.  One of the moderators will check it out, make sure it works, provide feedback, and potentially suggest some tweaks.
-5. When everything is rock-solid, we'll add your tutorial as a new repository in this Github organization, and give you admin access so you can make edits, add other committers, close issues, merge pull requests, etc.
+One solution for this is to add a configurable initialize hook that will use a library like 
+[Sinon.js](http://sinonjs.org/) to stub a static response to these services.
 
-Thanks for contributing!
-~Mike
+1. Create new sails app:
+```
+$ sails new path-to-app
+$ cd path-to-app
+```
+2. Install dependency
+```
+$ npm install --save sinon
+```
+3. [Create a new hook](http://sailsjs.com/documentation/concepts/extending-sails/hooks/project-hooks) by creating a 
+  folder in `api/hooks`.  For this example we will use `api/hooks/service-stubbing`.
+4. Create an `index.js` file in that directory requiring sinon.js with an initialize function as follows:
+```
+var sinon = require('sinon');
+/**
+ * This hook will add stubs for services to allow development when dependent integrated services are down.
+ */
+module.exports = function serviceStubbing(sails) {
+    var self   = this;
+    return {
+        initialize: function (cb) {
+            sails.log.debug('service-stubbing: initialize called');
 
+            if (sails.config.app.stubServices) {
+                try {
+                  sails.log.debug('service-stubbing: stubbing-services');
 
-### Roadmap
+                  //see http://sinonjs.org/releases/v3.2.1/stubs/ for further documentation on callsArgWith
+                  //note the peculiar lowercased naming of the service when accessed from sails.services
+                  var caStub = sinon.stub(sails.services.exampleservice, '').callsArgWith(0, {
+                    example: true, realistic: false, mocked: 'Mocked by service-stubbing hook!'
+                  });
 
-The Sails101 community project is still in an experimental stage.  Once we've tested it out a bit, the next step is to automatically parse the repositories in this Github organization, compile them to HTML, and sync them to the new "Guides" section of http://sailsjs.org.
+                  sails.log.debug('service-stubbing: stubbing complete');
+                } catch (ex) {
+                    sails.log.error('service-stubbing: Couldn\'t stub expected service.\n');
+                    sails.log.error('service-stubbing: ' + ex.message + '\n');
+                    sails.log.error('service-stubbing: ' + ex.stack + '\n');
+                }
+            } else {
+              sails.log.debug('service-stubbing: skipping service stubbing due to configuration');
+            }
+            return cb();
+        }
+    };
+}
+```
+5. Create a configuration property to control whether your service is stubbed.  For example, create `config/app.js` with
+  a stubServices property as referenced in step 4.
+```js
+module.exports.app = {
+  stubServices:  false
+};
+```
+  * Here we are defaulting the value to false so that no configuration is necessary to retain the normal behavior
+6. Locally, create a `config/local.js` to modify the configuration property for development/testing purposes.  This file
+  is gitignored and will ensure you don't accidentally commit a change that will cause your app to stub services 
+  unintentionally.  See the [documentation](http://sailsjs.com/documentation/concepts/configuration/the-local-js-file) 
+  about `local.js`.
+```js
+module.exports = {
+  app: {
+    stubServices: true
+  }
+};
+```
+7. Start the app with `stubServices` set to both `true` and `false` in `config/local.js` and observe the behavior.
 
-> + Please tweet [@sailsjs](https://twitter.com/sailsjs) with any ideas/comments/questions about this workflow.
+Happy hacking!
+
+~Kyle
+
+> + Please tweet [@kyle80](https://twitter.com/kyle80) with any ideas/comments/questions about this tutorial.
 
 
 ### License
